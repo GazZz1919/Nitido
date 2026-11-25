@@ -5,6 +5,11 @@
 if [ -f .issue-created ]; then
   exit 0
 fi
+# El flujo antiguo (build-apk.yml) falla al preparar Android: ya está sustituido
+# por compilar-apk.yml, así que sus fallos no abren issues.
+case "${GITHUB_WORKFLOW_REF:-}" in
+  */build-apk.yml@*) exit 0 ;;
+esac
 export GH_REPO="${GH_REPO:-${GITHUB_REPOSITORY:-}}"
 REPO="${GITHUB_REPOSITORY:-}"
 RUN="${GITHUB_RUN_NUMBER:-?}"
